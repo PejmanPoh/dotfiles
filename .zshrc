@@ -101,10 +101,7 @@ source ~/.nvm/nvm.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias la='ls -lap'
-alias gst='git status'
-alias gbr='git branch'
 alias glg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias vim='vi'
 alias sz='source ~/.zshrc'
 alias mvim='/Applications/MacVim.app/Contents/bin/mvim'
 alias restartdocker='docker-machine kill default && docker-machine start default && eval $(docker-machine env default) && docker login && make cc'
