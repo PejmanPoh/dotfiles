@@ -21,10 +21,11 @@
     Plugin 'valloric/youcompleteme'
     Plugin 'pangloss/vim-javascript'
     Plugin 'crusoexia/vim-javascript-lib'
-    " Plugin 'scrooloose/syntastic'
+    Plugin 'scrooloose/syntastic'
     " Plugin 'nathanaelkane/vim-indent-guides'
     Plugin 'prettier/vim-prettier'
     Plugin 'Yggdroot/indentLine'
+    Plugin 'scrooloose/nerdcommenter'
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
@@ -38,6 +39,8 @@
     set backspace=indent,eol,start      " Enable backspace wherever the hell I want
     set mouse=a                         " Enable mouse usage
     cabbrev tn tabnew                   " Shortcut for new vim tab
+
+    set directory^=$HOME/.vim/swap//    " Place all vim swap files in same folder
 " }}}
 
 " UI Layout {{{
@@ -127,18 +130,23 @@
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
-
     let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_loc_list_height = 5
     let g:syntastic_auto_loc_list = 1
     let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 0
-    let g:syntastic_javascript_checkers = ['jshint']
+    let g:syntastic_check_on_wq = 1
+    let g:syntastic_javascript_checkers = ['eslint']
+    let g:syntastic_error_symbol = '❌'
+    let g:syntastic_style_warning_symbol = '💩'
+    highlight link SyntasticErrorSign SignColumn
+    highlight link SyntasticWarningSign SignColumn
+    highlight link SyntasticStyleErrorSign SignColumn
+    highlight link SyntasticStyleWarningSign SignColumn
 " }}}
 
 " NERDTree {{{
     let g:NERDTreeShowHidden=1
     let NERDTreeQuitOnOpen=1
-    autocmd vimenter * NERDTree             " Auto open on new vim instance 
     autocmd vimenter * wincmd p             " Jump to main window
     map <C-n> :NERDTreeFind<CR>
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif     " Close vim if only window open is a NERDTree
@@ -148,7 +156,21 @@
 
 " The Silver Searcher {{{
     if executable('ag')
-        let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+        let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden 
+                    \ --ignore .git
+                    \ --ignore .idea
+                    \ --ignore /app
+                    \ --ignore /bin
+                    \ --ignore /ci
+                    \ --ignore /vendor
+                    \ --ignore /web
+                    \ --ignore /gradle
+                    \ --ignore /src-js/@accounts
+                    \ --ignore /test
+                    \ --ignore /test-ssgs
+                    \ --ignore /test-trupi
+                    \ --ignore /test-webservices
+                    \ -g ""'
         set grepprg=ag\ --nogroup\ --nocolor  " Use ag over grep
         let g:ctrlp_use_caching = 0           " ag is fast enough that CtrlP doesn't need caching
     endif
