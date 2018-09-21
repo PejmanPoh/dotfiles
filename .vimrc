@@ -16,7 +16,8 @@
     Plugin 'kien/ctrlp.vim'
     Plugin 'altercation/vim-colors-solarized'
     Plugin 'crusoexia/vim-monokai'
-    Plugin 'airblade/vim-gitgutter'
+    " Plugin 'airblade/vim-gitgutter'
+    Plugin 'mhinz/vim-signify'
     Plugin 'lumiliet/vim-twig'
     Plugin 'valloric/youcompleteme'
     Plugin 'pangloss/vim-javascript'
@@ -61,6 +62,33 @@
     set hlsearch                                " Turn on highlighting for search
     set incsearch                               " Turn on incremental search
     nnoremap <leader><space> :nohlsearch<CR>    " Turn off search highlight
+
+    " CTRL+P
+    nnoremap <Leader>o :CtrlPMRUFiles<CR>       " Most Recently Used files
+    let g:ctrlp_lazy_update = 1                 " Only search after typing has stopped
+
+    " The SilverSearcher {{{
+        if executable('ag')
+            let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden
+                        \ --ignore .git
+                        \ --ignore .idea
+                        \ --ignore /app
+                        \ --ignore /bin
+                        \ --ignore /ci
+                        \ --ignore /vendor
+                        \ --ignore /web
+                        \ --ignore /gradle
+                        \ --ignore /src-js/@accounts
+                        \ --ignore /test
+                        \ --ignore /test-ssgs
+                        \ --ignore /test-trupi
+                        \ --ignore /test-webservices
+                        \ -g ""'
+            set grepprg=ag\ --nogroup\ --nocolor  " Use ag over grep
+            let g:ctrlp_use_caching = 0           " ag is fast enough that CtrlP doesn't need caching
+        endif
+" }}}
+
 " }}}
 
 " Spaces & Tabs {{{
@@ -130,14 +158,14 @@
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
+    map <C-k> :Errors<CR>
+    let g:syntastic_html_tidy_quiet_messages = { "level" : "warnings" }
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_loc_list_height = 5
-    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_auto_loc_list = 0
     let g:syntastic_check_on_open = 1
     let g:syntastic_check_on_wq = 1
     let g:syntastic_javascript_checkers = ['eslint']
-    let g:syntastic_error_symbol = '❌'
-    let g:syntastic_style_warning_symbol = '💩'
     highlight link SyntasticErrorSign SignColumn
     highlight link SyntasticWarningSign SignColumn
     highlight link SyntasticStyleErrorSign SignColumn
@@ -154,28 +182,6 @@
     let NERDTreeChDirMode=2                 " Checks that working directory works correctly
 " }}}
 
-" The Silver Searcher {{{
-    if executable('ag')
-        let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden 
-                    \ --ignore .git
-                    \ --ignore .idea
-                    \ --ignore /app
-                    \ --ignore /bin
-                    \ --ignore /ci
-                    \ --ignore /vendor
-                    \ --ignore /web
-                    \ --ignore /gradle
-                    \ --ignore /src-js/@accounts
-                    \ --ignore /test
-                    \ --ignore /test-ssgs
-                    \ --ignore /test-trupi
-                    \ --ignore /test-webservices
-                    \ -g ""'
-        set grepprg=ag\ --nogroup\ --nocolor  " Use ag over grep
-        let g:ctrlp_use_caching = 0           " ag is fast enough that CtrlP doesn't need caching
-    endif
-" }}}
-
 " Custom Shortcuts {{{
     " Insert mode; Puts focus inside parentheses
     imap gll console.log(" = ", );<Esc>==f"a
@@ -188,6 +194,10 @@
 
     " Comment blocks of code
     vmap cjs I//<ESC><ESC>
+" }}}
+
+" Signify {{{
+    let g:signify_vcs_list = [ 'git' ]      " Only activate for git
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
