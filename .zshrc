@@ -101,11 +101,13 @@ source ~/.nvm/nvm.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias la='ls -lap'
+alias gbr='git branch'
 alias glg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias sz='source ~/.zshrc'
 alias mvim='/Applications/MacVim.app/Contents/bin/mvim'
 alias restartdocker='docker-machine kill default && docker-machine start default && eval $(docker-machine env default) && docker login && make cc'
 alias deleteBranches='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
+alias dcc='docker exec -i pricesearch_pricesearch_1 bash -c "rm -rf /dev/shm/cache/*"'
 
 # Spotify alias
 function sp() {
