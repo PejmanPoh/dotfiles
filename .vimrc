@@ -22,8 +22,8 @@
     Plugin 'valloric/youcompleteme'
     Plugin 'pangloss/vim-javascript'
     Plugin 'crusoexia/vim-javascript-lib'
-    Plugin 'scrooloose/syntastic'
-    " Plugin 'nathanaelkane/vim-indent-guides'
+    Plugin 'w0rp/ale'
+    " Plugin 'scrooloose/syntastic'
     Plugin 'prettier/vim-prettier'
     Plugin 'Yggdroot/indentLine'
     Plugin 'scrooloose/nerdcommenter'
@@ -45,7 +45,6 @@
 " }}}
 
 " UI Layout {{{
-    set cursorline      " Highlight line where the cursor is
     set number          " show line numbers
     set wildmenu        " visual autocomplete for command menu
     set lazyredraw      " redraw only when we need to
@@ -65,7 +64,7 @@
 
     " CTRL+P
     nnoremap <Leader>o :CtrlPMRUFiles<CR>       " Most Recently Used files
-    let g:ctrlp_lazy_update = 1                 " Only search after typing has stopped
+    let g:ctrlp_lazy_update = 100               " Only search after typing has stopped
 
     " The SilverSearcher {{{
         if executable('ag')
@@ -155,21 +154,39 @@
 " }}}
 
 " Syntastic {{{
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-    map <C-k> :Errors<CR>
-    let g:syntastic_html_tidy_quiet_messages = { "level" : "warnings" }
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_loc_list_height = 5
-    let g:syntastic_auto_loc_list = 0
-    let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 1
-    let g:syntastic_javascript_checkers = ['eslint']
-    highlight link SyntasticErrorSign SignColumn
-    highlight link SyntasticWarningSign SignColumn
-    highlight link SyntasticStyleErrorSign SignColumn
-    highlight link SyntasticStyleWarningSign SignColumn
+    "set statusline+=%#warningmsg#
+    "set statusline+=%{SyntasticStatuslineFlag()}
+    "set statusline+=%*
+    "map <C-k> :Errors<CR>
+    "let g:syntastic_html_tidy_quiet_messages = { "level" : "warnings" }
+    "let g:syntastic_always_populate_loc_list = 1
+    "let g:syntastic_loc_list_height = 5
+    "let g:syntastic_auto_loc_list = 0
+    "let g:syntastic_check_on_open = 0                               " Really slow startup on 1
+    "let g:syntastic_check_on_wq = 1
+    "let g:syntastic_javascript_checkers = ['eslint']
+    "highlight link SyntasticErrorSign SignColumn
+    "highlight link SyntasticWarningSign SignColumn
+    "highlight link SyntasticStyleErrorSign SignColumn
+    "highlight link SyntasticStyleWarningSign SignColumn
+" }}}
+
+" Ale {{{
+    let g:airline#extensions#ale#enabled = 1
+    let g:ale_linters = {'javascript': ['eslint']}
+    let g:ale_fixers = {'javascript': ['prettier']}
+    let g:ale_change_sign_column_color = 1          " Set highlights for the sign column when ALE reports problems
+
+    " Close loclist automatically when buffer is closed
+    augroup CloseLoclistWindowGroup
+        autocmd!
+        autocmd QuitPre * if empty(&buftype) | lclose | endif
+    augroup END
+
+    nmap <silent> <C-k> :lopen<cr>:wincmd p<cr>     " Open error list & switch back to original window
+    nmap <silent> <leader>aj :ALENext<cr>           " Next Error
+    nmap <silent> <leader>ak :ALEPrevious<cr>       " Previous Error
+
 " }}}
 
 " NERDTree {{{
@@ -198,6 +215,11 @@
 
 " Signify {{{
     let g:signify_vcs_list = [ 'git' ]      " Only activate for git
+" }}}
+
+" Prettier {{{
+    let g:prettier#exec_cmd_async = 1
+    let g:prettier#quickfix_auto_focus = 0
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
