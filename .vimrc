@@ -27,6 +27,7 @@
     Plugin 'prettier/vim-prettier'
     Plugin 'Yggdroot/indentLine'
     Plugin 'scrooloose/nerdcommenter'
+    " Plugin 'autozimu/LanguageClient-neovim'
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
@@ -42,6 +43,7 @@
     cabbrev tn tabnew                   " Shortcut for new vim tab
 
     set directory^=$HOME/.vim/swap//    " Place all vim swap files in same folder
+    set runtimepath+=~/.vim-plugins/LanguageClient-neovim   " For LanguageClient-neovim installed in ~/.vim-plugins/
 " }}}
 
 " UI Layout {{{
@@ -64,7 +66,7 @@
 
     " CTRL+P
     nnoremap <Leader>o :CtrlPMRUFiles<CR>       " Most Recently Used files
-    let g:ctrlp_lazy_update = 100               " Only search after typing has stopped
+    let g:ctrlp_lazy_update = 1                 " Only search after typing has stopped
 
     " The SilverSearcher {{{
         if executable('ag')
@@ -183,9 +185,9 @@
         autocmd QuitPre * if empty(&buftype) | lclose | endif
     augroup END
 
-    nmap <silent> <C-k> :lopen<cr>:wincmd p<cr>     " Open error list & switch back to original window
-    nmap <silent> <leader>aj :ALENext<cr>           " Next Error
-    nmap <silent> <leader>ak :ALEPrevious<cr>       " Previous Error
+    nmap <silent> <C-k> :lopen<cr>:wincmd p<cr>              " Open error list & switch back to original window
+    nmap <silent> <leader>aj :ALENext<cr>                    " Next Error
+    nmap <silent> <leader>ak :ALEPrevious<cr>                " Previous Error
 
 " }}}
 
@@ -220,6 +222,19 @@
 " Prettier {{{
     let g:prettier#exec_cmd_async = 1
     let g:prettier#quickfix_auto_focus = 0
+" }}}
+
+" LSP {{{
+   " Required for operations modifying multiple buffers like rename.
+   set hidden
+
+   let g:LanguageClient_serverCommands = {
+       \ 'javascript':['/Users/ppoh/dotfiles/javascript-typescript-langserver/lib/language-server'],
+       \ }
+
+   nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+   nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+   nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
