@@ -16,17 +16,16 @@
     Plugin 'kien/ctrlp.vim'
     Plugin 'altercation/vim-colors-solarized'
     Plugin 'crusoexia/vim-monokai'
-    " Plugin 'airblade/vim-gitgutter'
     Plugin 'mhinz/vim-signify'
     Plugin 'lumiliet/vim-twig'
     Plugin 'valloric/youcompleteme'
     Plugin 'pangloss/vim-javascript'
     Plugin 'crusoexia/vim-javascript-lib'
     Plugin 'w0rp/ale'
-    " Plugin 'scrooloose/syntastic'
     Plugin 'prettier/vim-prettier'
     Plugin 'Yggdroot/indentLine'
     Plugin 'scrooloose/nerdcommenter'
+    Plugin 'yuttie/comfortable-motion.vim'
     " Plugin 'autozimu/LanguageClient-neovim'
 
     " All of your Plugins must be added before the following line
@@ -155,24 +154,6 @@
     " }}}
 " }}}
 
-" Syntastic {{{
-    "set statusline+=%#warningmsg#
-    "set statusline+=%{SyntasticStatuslineFlag()}
-    "set statusline+=%*
-    "map <C-k> :Errors<CR>
-    "let g:syntastic_html_tidy_quiet_messages = { "level" : "warnings" }
-    "let g:syntastic_always_populate_loc_list = 1
-    "let g:syntastic_loc_list_height = 5
-    "let g:syntastic_auto_loc_list = 0
-    "let g:syntastic_check_on_open = 0                               " Really slow startup on 1
-    "let g:syntastic_check_on_wq = 1
-    "let g:syntastic_javascript_checkers = ['eslint']
-    "highlight link SyntasticErrorSign SignColumn
-    "highlight link SyntasticWarningSign SignColumn
-    "highlight link SyntasticStyleErrorSign SignColumn
-    "highlight link SyntasticStyleWarningSign SignColumn
-" }}}
-
 " Ale {{{
     let g:airline#extensions#ale#enabled = 1
     let g:ale_linters = {'javascript': ['eslint']}
@@ -210,9 +191,6 @@
     nmap gll yiwogll<Esc>pf,lp
     " Visual mode; but removes the word and places it into a log
     vmap cll digll<ESC>pf,lp
-
-    " Comment blocks of code
-    vmap cjs I//<ESC><ESC>
 " }}}
 
 " Signify {{{
@@ -222,6 +200,11 @@
 " Prettier {{{
     let g:prettier#exec_cmd_async = 1
     let g:prettier#quickfix_auto_focus = 0
+" }}}
+
+" comfortable-motion.vim {{{
+let g:comfortable_motion_friction = 80.0
+let g:comfortable_motion_air_drag = 4.0
 " }}}
 
 " LSP {{{
