@@ -203,8 +203,8 @@
 " }}}
 
 " comfortable-motion.vim {{{
-let g:comfortable_motion_friction = 80.0
-let g:comfortable_motion_air_drag = 4.0
+let g:comfortable_motion_friction = 0.0
+let g:comfortable_motion_air_drag = 8.0
 " }}}
 
 " LSP {{{
