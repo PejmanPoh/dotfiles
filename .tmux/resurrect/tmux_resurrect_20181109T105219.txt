@@ -1,0 +1,8 @@
+pane	0	1	:vim	1	:*	1	:/Users/ppoh/development/pricesearch/app/config	1	vim	:vi config_local.xml
+pane	0	1	:vim	1	:*	2	:/Users/ppoh/development/pricesearch	0	node	:node /usr/local/Cellar/yarn/1.12.1/libexec/bin/yarn.js dev-server
+pane	0	2	:zsh	0	:	1	:/Users/ppoh/development/pricesearch/src-js	1	zsh	:
+pane	0	3	:zsh	0	:-	1	:/Users/ppoh/.ssh	1	zsh	:
+window	0	1	1	:*	e018,244x90,0,0[244x61,0,0,1,244x28,0,62,2]
+window	0	2	0	:	b7a0,244x90,0,0,3
+window	0	3	0	:-	b7a1,244x90,0,0,4
+state	0	

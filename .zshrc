@@ -104,29 +104,33 @@ alias la='ls -lap'
 alias gbr='git branch'
 alias glg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias sz='source ~/.zshrc'
+alias sd='yarn install && composer install && yarn dev-server'
 alias mvim='/Applications/MacVim.app/Contents/bin/mvim'
-alias restartdocker='docker-machine kill default && docker-machine start default && eval $(docker-machine env default) && docker login && make cc'
+# restart docker pricesearch
+alias rdp='docker-machine kill default && docker-machine start default && eval $(docker-machine env default) && make cc'
+alias sdp='docker-machine start default && eval $(docker-machine env default) && make cc'
+alias kdp='docker-machine kill default'
+# restart docker pricesearch nsi
+#alias rdpn='docker-machine kill pricesearchnsi && docker-machine start pricesearchnsi && eval $(docker-machine env pricesearchnsi) && docker login && make cc'
+#alias dkpn='docker-machine kill pricesearchnsi'
 alias deleteBranches='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
 alias dcc='docker exec -i pricesearch_pricesearch_1 bash -c "rm -rf /dev/shm/cache/*"'
 
-# Spotify alias
-function sp() {
-	if [ "$2" != "" ]
-	then
-		spotify $1 $2
-	else
-		spotify $1
-	fi
-
-}
-alias spn='spotify next'
-
+alias psstart="./app/pricesearch/console server:start --env=dev --docroot=."
+alias psstop="./app/pricesearch/console server:stop"
+alias pscc="rm -rf app/*/cache/*"
 # find alias
 function f() {
     if [ "$1" != "" ]
     then
         find . -iname $1
     fi
+}
+
+# Runs la after cd
+function chpwd() {
+    emulate -L zsh
+    ls -lap
 }
 
 eval $(docker-machine env default)
@@ -136,5 +140,6 @@ export HOMEBREW_GITHUB_API_TOKEN="f7568261c3037f1cfa0c84bdbf653601f936b8e8"
 export NVM_DIR="/Users/ppoh/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-
 eval $(thefuck --alias)
+export PATH="/usr/local/opt/php@7.2/bin:$PATH"
+export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
