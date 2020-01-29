@@ -1,8 +1,0 @@
-pane	0	1	:zsh	0	:-M	1	:/Users/ppoh/development/pricesearch	1	zsh	:vi config_local.xml
-pane	0	1	:zsh	0	:-M	2	:/Users/ppoh/development/pricesearch	0	zsh	:node /usr/local/Cellar/yarn/1.7.0/libexec/bin/yarn.js start
-pane	0	2	:zsh	0	:	1	:/Users/ppoh/development/pricesearch-nsi/src-js	1	zsh	:
-pane	0	3	:zsh	1	:*	1	:/Users/ppoh/dotfiles	1	zsh	:
-window	0	1	0	:-M	7121,244x90,0,0[244x68,0,0,3,244x21,0,69,9]
-window	0	2	0	:	b79e,244x90,0,0,1
-window	0	3	1	:*	b79f,244x90,0,0,2
-state	0	

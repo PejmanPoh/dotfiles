@@ -64,13 +64,13 @@ plugins=(
   dotenv
   osx
   rake
-  ebenv
   ruby
   yarn-autocompletions
 )
 
 source $ZSH/oh-my-zsh.sh
 source ~/.nvm/nvm.sh
+source $(dirname $(gem which colorls))/tab_complete.sh
 
 # User configuration
 
@@ -100,9 +100,16 @@ source ~/.nvm/nvm.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias la='ls -lap'
+alias la='colorls -lA --sd'
 alias gbr='git branch'
+alias gbs='git branch-select'
 alias glg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gd="git status -s \
+    | fzf --no-sort --reverse \
+    --preview 'git diff --color=always {+2} | diff-so-fancy' \
+    --bind=ctrl-j:preview-down --bind=ctrl-k:preview-up \
+    --preview-window=right:60%:wrap
+"
 alias sz='source ~/.zshrc'
 alias sd='yarn install && composer install && yarn dev-server'
 alias mvim='/Applications/MacVim.app/Contents/bin/mvim'
@@ -110,11 +117,9 @@ alias mvim='/Applications/MacVim.app/Contents/bin/mvim'
 alias rdp='docker-machine kill default && docker-machine start default && eval $(docker-machine env default) && make cc'
 alias sdp='docker-machine start default && eval $(docker-machine env default) && make cc'
 alias kdp='docker-machine kill default'
-# restart docker pricesearch nsi
-#alias rdpn='docker-machine kill pricesearchnsi && docker-machine start pricesearchnsi && eval $(docker-machine env pricesearchnsi) && docker login && make cc'
-#alias dkpn='docker-machine kill pricesearchnsi'
 alias deleteBranches='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
-alias dcc='docker exec -i pricesearch_pricesearch_1 bash -c "rm -rf /dev/shm/cache/*"'
+alias undoCommit='git reset --soft HEAD~1 && git reset HEAD .' 
+alias vfz='vim `fzf`'
 
 alias psstart="./app/pricesearch/console server:start --env=dev --docroot=."
 alias psstop="./app/pricesearch/console server:stop"
@@ -127,12 +132,6 @@ function f() {
     fi
 }
 
-# Runs la after cd
-function chpwd() {
-    emulate -L zsh
-    ls -lap
-}
-
 eval $(docker-machine env default)
 
 export HOMEBREW_GITHUB_API_TOKEN="f7568261c3037f1cfa0c84bdbf653601f936b8e8"
@@ -143,3 +142,11 @@ export NVM_DIR="/Users/ppoh/.nvm"
 eval $(thefuck --alias)
 export PATH="/usr/local/opt/php@7.2/bin:$PATH"
 export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
+
+export VOLTA_HOME="$HOME/.volta"
+[ -s "$VOLTA_HOME/load.sh" ] && . "$VOLTA_HOME/load.sh"
+
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+export FZF_DEFAULT_COMMAND='ag -l --path-to-ignore ~/.ignore --nocolor --hidden -g ""'
+export FZF_DEFAULT_OPTS="--preview 'bat --color "always" {}'"

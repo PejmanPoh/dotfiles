@@ -4,6 +4,10 @@
 
     " set the runtime path to include Vundle and initialize
     set rtp+=~/.vim/bundle/Vundle.vim
+
+    " Add homebrew fzf to the vim path:
+    set rtp+=/usr/local/opt/fzf
+
     call vundle#begin()
 
     " let Vundle manage Vundle, required
@@ -13,7 +17,7 @@
     Plugin 'scrooloose/nerdtree'
     Plugin 'vim-airline/vim-airline'
     Plugin 'vim-airline/vim-airline-themes'
-    Plugin 'kien/ctrlp.vim'
+    "Plugin 'kien/ctrlp.vim'
     Plugin 'altercation/vim-colors-solarized'
     Plugin 'crusoexia/vim-monokai'
     Plugin 'mhinz/vim-signify'
@@ -26,7 +30,10 @@
     Plugin 'Yggdroot/indentLine'
     Plugin 'scrooloose/nerdcommenter'
     Plugin 'yuttie/comfortable-motion.vim'
-    " Plugin 'autozimu/LanguageClient-neovim'
+    Plugin 'mbbill/undotree'
+    Plugin 'jparise/vim-graphql'
+    "Plugin 'zxqfl/tabnine-vim'
+    Plugin 'junegunn/fzf.vim'
 
     " All of your Plugins must be added before the following line
     call vundle#end()            " required
@@ -43,6 +50,10 @@
 
     set directory^=$HOME/.vim/swap//    " Place all vim swap files in same folder
     set runtimepath+=~/.vim-plugins/LanguageClient-neovim   " For LanguageClient-neovim installed in ~/.vim-plugins/
+
+    " Highlight trailing whitespaces
+    highlight RedundantSpaces ctermbg=red guibg=red 
+    match RedundantSpaces /\s\+$/
 " }}}
 
 " UI Layout {{{
@@ -64,8 +75,13 @@
     nnoremap <leader><space> :nohlsearch<CR>    " Turn off search highlight
 
     " CTRL+P
-    nnoremap <Leader>o :CtrlPMRUFiles<CR>       " Most Recently Used files
-    let g:ctrlp_lazy_update = 1                 " Only search after typing has stopped
+    "nnoremap <Leader>o :CtrlPMRUFiles<CR>       " Most Recently Used files
+    "let g:ctrlp_lazy_update = 1                 " Only search after typing has stopped
+    "let g:ctrlp_match_window = 'results:30'     " Populates results with more, allows scrolling
+
+    " fzf.vim
+    let g:fzf_layout = { 'up': '~50%' }          " Move FZF search entry to center of screen
+    nnoremap <C-p> :GitFiles<Cr>
 
     " The SilverSearcher {{{
         if executable('ag')
@@ -182,33 +198,6 @@
     let NERDTreeChDirMode=2                 " Checks that working directory works correctly
 " }}}
 
-" Custom Shortcuts {{{
-    " JS 
-        " Insert mode; Puts focus inside parentheses
-        imap gll console.log(': ', );<Esc>==f'
-        " Visual mode; Puts visual selection inside parentheses
-        vmap gll y<ESC>ogllpf,lp
-        " Normal mode; Inserted on next line with word you're on inside parentheses
-        nmap gll yiwogllpf,lp
-        " Visual mode; but removes the word and places it into a log
-        vmap cll digllpf,lp
-        " Normal mode; tap(console.log),
-        nmap gllt itap(console.log),<ESC>
-    " twig
-        " Insert mode; Puts focus inside parentheses
-        imap glt {{ dump(': ', ) }}<Esc>==f'
-        " Visual mode; Puts visual selection inside parentheses
-        vmap glt y<ESC>ogltpf,lp
-        " Normal mode; Inserted on next line with word you're on inside parentheses
-        nmap glt yiwogltpf,lp
-        " Visual mode; but removes the word and places it into a log
-        vmap clt digltpf,lp
-        " Normal mode; Prints {{ dump('_context: ', _context) }}
-        nmap glcc o{{ dump('_context: ', _context) }}<Esc>
-
-        nnoremap * *``
-" }}}
-
 " Signify {{{
     let g:signify_vcs_list = [ 'git' ]      " Only activate for git
 " }}}
@@ -224,16 +213,42 @@ let g:comfortable_motion_air_drag = 8.0
 " }}}
 
 " LSP {{{
-   " Required for operations modifying multiple buffers like rename.
-   "set hidden
+" }}}
 
-   "let g:LanguageClient_serverCommands = {
-       "\ 'javascript':['/Users/ppoh/dotfiles/javascript-typescript-langserver/lib/language-server'],
-       "\ }
+" undotree {{{
+nnoremap <C-x> :UndotreeToggle<cr>
+" }}}
 
-   "nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-   "nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-   "nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+" Custom Shortcuts {{{
+    " JS 
+        " Insert mode; Puts focus inside parentheses
+        imap gll console.log(': ', );<Esc>==f'
+        " Visual mode; Puts visual selection inside parentheses
+        vmap gll y<ESC>ogllpf,lp
+        " Normal mode; Inserted on next line with word you're on inside parentheses
+        nmap gll yiwogllpf,lp
+        " Visual mode; but removes the word and places it into a log
+        vmap cll digllpf,lp
+        " Insert mode; Puts focus inside parentheses
+        imap gllt tap(console.log),<ESC>
+        " Normal mode; tap(console.log),
+        nmap gllt otap(console.log),<ESC>
+		" Normal mode; Changes arrow function return => ({ }) to => { return {} }
+		nmap gob %r}<C-O>r{a<CR>return <ESC>O
+
+    " twig
+        " Insert mode; Puts focus inside parentheses
+        imap glt {{ dump(': ', ) }}<Esc>==f'
+        " Visual mode; Puts visual selection inside parentheses
+        vmap glt y<ESC>ogltpf,lp
+        " Normal mode; Inserted on next line with word you're on inside parentheses
+        nmap glt yiwogltpf,lp
+        " Visual mode; but removes the word and places it into a log
+        vmap clt digltpf,lp
+        " Normal mode; Prints {{ dump('_context: ', _context) }}
+        nmap glcc o{{ dump('_context: ', _context) }}<Esc>
+
+        nnoremap * *``
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
