@@ -42,6 +42,7 @@
 
 " Misc {{{
     set encoding=utf-8
+    set hidden
 
     let mapleader = ','
     set backspace=indent,eol,start      " Enable backspace wherever the hell I want
@@ -54,6 +55,11 @@
     " Highlight trailing whitespaces
     highlight RedundantSpaces ctermbg=red guibg=red 
     match RedundantSpaces /\s\+$/
+
+    " Break undo sequence on Space, Tab and Enter
+    inoremap <Space> <Space><C-g>u
+    inoremap <Tab> <Tab><C-g>u
+    inoremap <CR> <CR><C-g>u
 " }}}
 
 " UI Layout {{{
@@ -62,6 +68,7 @@
     set lazyredraw      " redraw only when we need to
     set showmatch       " highlight matching brackets
     set showcmd         " Show commands in input area
+    set scrolloff=5     " keep the cursor at least 5 lines from window border [visibleLines]
 " }}}
 
 " Searching {{{
@@ -123,8 +130,8 @@
 " }}}
 
 " Fix Python Path (for YCM) {{{
-    let g:ycm_path_to_python_interpreter='python'
-    let g:ycm_server_python_interpreter='python'
+    let g:ycm_path_to_python_interpreter='python3'
+    let g:ycm_server_python_interpreter='python3'
 " }}}
 
 " Yank to clipboard {{{
@@ -204,7 +211,6 @@
 
 " Prettier {{{
     let g:prettier#exec_cmd_async = 1
-    let g:prettier#quickfix_auto_focus = 0
 " }}}
 
 " comfortable-motion.vim {{{
@@ -230,9 +236,9 @@ nnoremap <C-x> :UndotreeToggle<cr>
         " Visual mode; but removes the word and places it into a log
         vmap cll digllpf,lp
         " Insert mode; Puts focus inside parentheses
-        imap gllt tap(console.log),<ESC>
+        imap gllt tap(tapLog => console.log('tapLog: ', tapLog)),<ESC>
         " Normal mode; tap(console.log),
-        nmap gllt otap(console.log),<ESC>
+        nmap gllt ogllt<ESC>
 		" Normal mode; Changes arrow function return => ({ }) to => { return {} }
 		nmap gob %r}<C-O>r{a<CR>return <ESC>O
 

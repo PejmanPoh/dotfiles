@@ -113,10 +113,6 @@ alias gd="git status -s \
 alias sz='source ~/.zshrc'
 alias sd='yarn install && composer install && yarn dev-server'
 alias mvim='/Applications/MacVim.app/Contents/bin/mvim'
-# restart docker pricesearch
-alias rdp='docker-machine kill default && docker-machine start default && eval $(docker-machine env default) && make cc'
-alias sdp='docker-machine start default && eval $(docker-machine env default) && make cc'
-alias kdp='docker-machine kill default'
 alias deleteBranches='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
 alias undoCommit='git reset --soft HEAD~1 && git reset HEAD .' 
 alias vfz='vim `fzf`'
